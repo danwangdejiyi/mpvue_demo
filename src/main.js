@@ -18,8 +18,41 @@ export default {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
-    }
+      navigationBarTitleText: '首页',
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: false
+    },
+    tabBar: {
+      color: '#b2b2b2',
+      selectedColor: '#2fcc85',
+      backgroundColor: '#ffffff',
+      list: [
+        {
+          pagePath: 'pages/index/main',
+          text: '快速打卡',
+          iconPath: 'static/img/check_unselected.png',
+          selectedIconPath: 'static/img/check_selected.png'
+        },
+        {
+          pagePath: 'pages/index/main',
+          text: '任务管理',
+          iconPath: 'static/img/task_unselected.png',
+          selectedIconPath: 'static/img/task_selected.png'
+        },
+        {
+          pagePath: 'pages/index/main',
+          text: '新建打卡',
+          iconPath: 'static/img/add_unselected.png',
+          selectedIconPath: 'static/img/add_selected.png'
+        }
+      ]
+    },
+    networkTimeout: {
+      request: 10000,
+      connectSocket: 10000,
+      uploadFile: 10000,
+      downloadFile: 10000
+    },
+    debug: false
   }
 }
