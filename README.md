@@ -23,8 +23,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 
 # 记录一下开发问题
-[^_^]:
-:mpvue不支持 ';' ，输入 ';' 直接报错（太tmd坑爹了）
+[^_^]:mpvue不支持 ';' ，输入 ';' 直接报错（太tmd坑爹了）
 :mpvue使用制表符tab（缩进使用 tab）时，必须设置为2个空格，非2个空格报错
 :每个vue，js等编写完之后，必须预留一行（多回车几次就可以了）
 例子
