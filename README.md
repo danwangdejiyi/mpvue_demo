@@ -33,7 +33,7 @@ function posts (url) {
   return all
 }
 posts('')
-
+//导出方式
 export function post (url) {
   let all = serverPath + url
   return all

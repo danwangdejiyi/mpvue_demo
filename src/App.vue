@@ -1,11 +1,17 @@
 <script>
-import { post } from './utils/common.js'
-
-console.log(post)
-
 export default {
   created () {
-    // 调用API从本地缓存中获取数据
+    // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
+    try {
+      const uid = wx.getStorageSync('uid')
+      if (uid) {
+        console.log('uid', uid)
+      } else {
+        console.log('空')
+      }
+    } catch (e) {
+      console.log('失败', e)
+    }
   },
   data () {
     return {
