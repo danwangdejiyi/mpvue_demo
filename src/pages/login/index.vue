@@ -1,12 +1,12 @@
 <template>
   <!-- 登陆 -->
   <div class="container">
-    <div class="flex">
+    <div class="flex arrow_right">
         <!-- 用户名：手机号 -->
         <span class="key">电话号码</span>
         <input bindinput="bindKeyInput" type="tel" class="input box" maxlength="100" placeholder="请输入电话号码" />
     </div>
-    <div class="flex" @click="showToast">
+    <div class="flex arrow_right" @click="showToast">
         <!-- 用户姓名 -->
         <span class="key">密码</span>
         <input bindinput="bindKeyInput" type="password" class="input box" maxlength="100" placeholder="请输入用户姓名" />
@@ -27,11 +27,16 @@ export default {
   components: {
     mptoast
   },
-  onLaunch () {
-    console.log('初始化')
-    console.log(this)
+  onReady(){
+    wx.setNavigationBarTitle({
+      title: '登陆'
+    })
+    console.log(11)
   },
   onShow () {
+    // wx.navigateTo({
+    //   url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
+    // })
     // 验证用户是否登陆了
     console.log('当小程序启动，或从后台进入前台显示')
     console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
@@ -40,15 +45,12 @@ export default {
   onHide () {
     console.log('当小程序从前台进入后台')
   },
-  onLoad (option) {
-    console.log(135, option)
+  onLoad () {
     console.log('监听页面加载')
   },
   beforeCreate () {
   },
-  data (options) {
-    console.log(1, options)
-    console.log(common)
+  data () {
     return {}
   },
   methods: {
@@ -71,9 +73,7 @@ export default {
   height:90rpx;
   padding: 0 30rpx;
   border-bottom: 1px solid #f0f0f0;
-  background:url(/static/img/arrow-r-0.png) no-repeat 730rpx center;
   background-color: #fff;
-  background-size: 9rpx 17rpx;
 }
 .flex .box{
   flex:1;

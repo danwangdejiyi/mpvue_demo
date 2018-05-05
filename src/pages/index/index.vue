@@ -1,17 +1,17 @@
 <template>
   <!-- 新建任务 -->
   <div class="container">
-    <div class="flex" @click="showToast">
+    <div class="flex arrow_right" @click="showToast">
         <!-- 用户姓名 -->
         <span class="key">用户姓名</span>
         <input bindinput="bindKeyInput" class="input box" maxlength="100" placeholder="请输入用户姓名" />
     </div>
-    <div class="flex">
+    <div class="flex arrow_right">
         <!-- 电话号码 -->
         <span class="key">电话号码</span>
         <input bindinput="bindKeyInput" text="tel" class="input box" maxlength="100" placeholder="请输入电话号码" />
     </div>
-    <div class="flex">       
+    <div class="flex arrow_right">       
         <!-- 其他 -->
         <span class="key">其他</span>
         <input bindinput="bindKeyInput" class="input box" maxlength="100" placeholder="请输入其他" />
@@ -39,30 +39,47 @@ export default {
   components: {
     mptoast
   },
-  onLaunch () {
-    console.log('初始化')
+  onLoad (options) {//监听页面加载this.$root.$mp.query
+    
   },
-  onShow () {
-    console.log('当小程序启动，或从后台进入前台显示')
+  onReady(){
+    wx.setNavigationBarTitle({
+      title: '首页'
+    })
+  },
+  onShow () {//this.$root.$mp.appOptions
+    // wx.redirectTo({
+    //   url:'pages/login/main'
+    // })
+    //console.log('当小程序启动，或从后台进入前台显示')
     // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
-    console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
+    //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
   },
   onHide () {
-    console.log('当小程序从前台进入后台')
-  },
-  onLoad () {
-    console.log('监听页面加载')
+    //console.log('当小程序从前台进入后台')
   },
   beforeCreate () {
-    console.log('beforeCreate')
+    //console.log('beforeCreate')
   },
   data () {
-    console.log(common)
     return {}
   },
   methods: {
     showToast () {
       this.$mptoast('我是提示信息')
+    },
+    isLogin(){
+      // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
+      const uid = wx.getStorageSync('uid')
+      if(uid){
+        this.userinfo={
+          uid:uid
+        }
+      }else{
+        wx.navigateTo({
+          url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
+        })
+      }
     }
   }
 }
@@ -80,9 +97,7 @@ export default {
   height:90rpx;
   padding: 0 30rpx;
   border-bottom: 1px solid #f0f0f0;
-  background:url(/static/img/arrow-r-0.png) no-repeat 730rpx center;
   background-color: #fff;
-  background-size: 9rpx 17rpx;
 }
 .flex .box{
   flex:1;

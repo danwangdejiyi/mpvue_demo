@@ -1,17 +1,18 @@
 <script>
 export default {
+  onLaunch () {//只有App.vue才会执行初始化函数onLaunch，其他页面不会执行的
+    console.log('小程序初始化')
+  },
   created () {
-    // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
-    try {
-      const uid = wx.getStorageSync('uid')
-      if (uid) {
-        console.log('uid', uid)
-      } else {
-        console.log('空')
+    const uid = wx.getStorageSync('uid')
+    if(uid){
+      this.userinfo={
+        uid:uid
       }
-    } catch (e) {
-      console.log('失败', e)
     }
+  },
+  onShow(){
+    
   },
   data () {
     return {
@@ -46,5 +47,9 @@ input{
 }
 .mt20{
   margin-top: 20rpx;
+}
+.arrow_right{
+  background:url('../static/img/arrow-r-0.png') no-repeat 730rpx center;
+  background-size: 9rpx 17rpx;
 }
 </style>
