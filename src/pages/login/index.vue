@@ -43,14 +43,13 @@ export default {
     })
   },
   onShow(){//监听页面显示
-    this.$data.transition=true
-    console.log(this)
+    
   },
   onHide () {//监听页面隐藏
     
   },
   onReady(){//监听页面初次渲染完成
-
+    this.$data.transition=true//开启动画
   },
   data () {
     return {
@@ -97,7 +96,7 @@ export default {
       common.networkRequest('get','/api/login',{
         username,
         password
-      }).then((v) => {
+      }).then((v) => {//登录成功，保存信息，，并跳转之前那个页面
           console.log(v);
       }).catch((v) => {
           console.log(v);

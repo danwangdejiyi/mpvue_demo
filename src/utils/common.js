@@ -33,21 +33,21 @@ async function networkRequest (method = 'get', url = '', params = {}) {
       },
       url: globalData.domain+url,
       data: params,
-      success: function (result) {
+      success: function (res) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
         wx.showToast({
-          title: result.errMsg
+          title: res.errMsg
         })
-        resolve(result)
+        resolve(res)
       },
-      fail: function (result) {
+      fail: function (res) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
         wx.showToast({
-          title: result.errMsg
+          title: res.errMsg
         })
-        reject(result)
+        reject(res)
       }
     })
   })
@@ -62,10 +62,16 @@ function isLogin(){
   if(uid){
     userinfo.uid=uid
   }else{
-    wx.navigateTo({
-      url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
-    })
+    goLogin('您还没有登录，请登陆')
   }
+}
+function goLogin(msg){
+  wx.removeStorageSync('uid')
+  delete userinfo.uid
+  let url='/pages/login/main'+(msg?'?msg='+encodeURIComponent(msg):'')
+  wx.navigateTo({
+    url: url
+  })
 }
 let userinfo={}//小程序页面操作（读取）的用户信息对象
 Object.defineProperty(userinfo,'__getUserinfo__',{
@@ -81,6 +87,7 @@ Object.defineProperty(userinfo,'__getUserinfo__',{
 let common = {
   networkRequest,
   isLogin,
+  goLogin,
   userinfo
 }
 

@@ -37,19 +37,19 @@ export default {
       list: [
         {
           pagePath: 'pages/home/main',
-          text: '房子',
+          text: '房抵',
           iconPath: '/static/img/tabBar/home_unselected.png',
           selectedIconPath: '/static/img/tabBar/home_selected.png'
         },
         {
           pagePath: 'pages/index/main',
-          text: '浩业金服',
+          text: '垫资',
           iconPath: '/static/img/tabBar/index_unselected.png',
           selectedIconPath: '/static/img/tabBar/index_selected.png'
         },
         {
           pagePath: 'pages/my/main',
-          text: '我的',
+          text: '个人中心',
           iconPath: '/static/img/tabBar/my_unselected.png',
           selectedIconPath: '/static/img/tabBar/my_selected.png'
         }

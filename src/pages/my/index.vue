@@ -1,34 +1,46 @@
 <template>
-  <!-- 新建任务 -->
+  <!-- 个人中心 -->
   <div class="container">
-    <div class="flex arrow_right" @click="showToast">
-        <!-- 用户姓名 -->
-        <span class="key">用户姓名</span>
-        <input bindinput="bindKeyInput" class="input box" maxlength="100" placeholder="请输入用户姓名" />
+    <div class="contnet">
+      <div class="flex" @click="toggleUserInfo" :class="{hide:isToggleUserInfo}">
+        <img src="/static/img/center/touxiang.png" alt="浩业金服">
+        <div class="box">
+          <p>用户名</p>
+          <p>浩业金服</p>
+        </div>
+      </div>
     </div>
     <div class="flex arrow_right">
+        <!-- 历史报单 -->
+        <span class="key">历史报单</span>
+        <a href="/pages/my/history/main" class="box"></a>
+    </div>
+    <div class="flex arrow_right mt20">
         <!-- 电话号码 -->
-        <span class="key">电话号码</span>
-        <input bindinput="bindKeyInput" text="tel" class="input box" maxlength="100" placeholder="请输入电话号码" />
+        <span class="key">关于</span>
+        <a href="" class="box"></a>
     </div>
-    <div class="flex arrow_right">       
+    <div class="flex arrow_right mt20">       
         <!-- 其他 -->
-        <span class="key">其他</span>
-        <input bindinput="bindKeyInput" class="input box" maxlength="100" placeholder="请输入其他" />
-    </div>
-    <!-- 上传图片 --> 
-    <div class="flex uploadImg mt20">
-        <span>上传图片</span>
-        <span class="add">
-          <img src="/static/img/add.png" />
-        </span>
-    </div>
-    <!-- 创建按钮 -->
-    <div class="create">
-        <button class="btn " bindtap="bindSubmit">button</button>
+        <span class="key">使用说明</span>
+        <a href="" class="box"></a>
     </div>
     <!-- mptoast弹出框 -->
     <mptoast />
+    <!--用户信息详情-->
+    <div class="userinfo" :class="{show:isToggleUserInfo}">
+      <h6><img src="/static/img/icon/arrow_left_on.png" @click="toggleUserInfo">账号管理</h6>
+      <div class="userDetail">
+        <div class="flex">
+          <p>姓名</p>
+          <p class="box">浩业金服</p>
+        </div>
+      </div>
+      <!-- 创建按钮 -->
+      <div class="create">
+          <button class="btn " @tap="logout">退出</button>
+      </div>
+    </div>
 </div>
 </template>
 
@@ -38,72 +50,139 @@ export default {
   components: {
     mptoast
   },
-  onLoad (options) {//监听页面加载this.$root.$mp.query
+  beforeCreate(){//1
     
   },
-  onReady(){
+  created(){
+    
+  },
+  onLoad(){//监听页面加载
     wx.setNavigationBarTitle({
-      title: '首页'
+      title: '个人中心'
     })
   },
-  onShow () {//this.$root.$mp.appOptions
-    // wx.redirectTo({
-    //   url:'pages/login/main'
-    // })
+  onShow(){//监听页面显示
+    this.$common.isLogin()
     //console.log('当小程序启动，或从后台进入前台显示')
     // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
     //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
   },
-  onHide () {
-    //console.log('当小程序从前台进入后台')
+  onHide () {//监听页面隐藏
+    
   },
-  beforeCreate () {
-    //console.log('beforeCreate')
+  onReady(){//监听页面初次渲染完成
+
   },
   data () {
-    return {}
+    return {
+      isToggleUserInfo:false //是否显示用户信息详情
+    }
   },
   methods: {
-    showToast () {
-      this.$mptoast('我是提示信息')
+    showToast (title) {
+      title&&this.$mptoast(title)
     },
-    isLogin(){
-      // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
-      const uid = wx.getStorageSync('uid')
-      if(uid){
-        this.userinfo={
-          uid:uid
-        }
+    toggleUserInfo(){
+      let {isToggleUserInfo} =this.$data
+      if(!isToggleUserInfo){
+        wx.hideTabBar({
+          animation:true
+        })
       }else{
-        wx.navigateTo({
-          url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
+        wx.showTabBar({
+          animation:true
         })
       }
+      this.$data.isToggleUserInfo=!isToggleUserInfo
+    },
+    logout(){//退出
+      this.$common.goLogin()
     }
   }
 }
 </script>
 <style>
-
-/*上传*/
-.uploadImg{
-  height: 200rpx;
-  padding:20rpx;
-  justify-content: flex-start;
-  background: #fff;
+/*个人中心页-head展示区域*/
+.contnet{
+  width: 100%;
+  height:300rpx;
+  background:url(/static/img/center/center.png) no-repeat center;
+  background-size: cover;
+  padding-top:128rpx;
+  box-sizing: border-box;
 }
-.add {
-  width: 200rpx;
-  height: 100%;
+.contnet .flex{
+  background:transparent;
+  height:auto;
+}
+.contnet .box{
+  background:url(/static/img/icon/ic_arrow_right_on.png) no-repeat right center;
+  background-size:24rpx 44rpx;
+}
+.contnet img{
+  width: 126rpx;
+  height: 126rpx;
+  border-radius: 50%;
+}
+.contnet p{
+  padding-left:30rpx;
+  color:#fff;
+  font-size:34rpx;
+  height:63rpx;
+  line-height: 63rpx;
+}
+/*列表*/
+.box{
+  height:100%;
+}
+/*用户信息详情*/
+.userinfo{
+  display: none;
+  position: fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  background:#f2f2f2;
+  z-index:99;
+}
+.userinfo .flex,.userinfo h6{
+  height: 100rpx;
+  line-height: 100rpx;
+  color:#333;
+  font-size:28rpx;
+  padding:0 24rpx;
+}
+.userinfo .box{
+  text-align: right;
+}
+.userinfo h6 {
   position: relative;
-  background: #F6F6F6;
+  text-align: center;
 }
-.add img{
-  width: 72rpx;
-  height: 72rpx;
+.userinfo h6 img{
   position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  left: 0;
+  padding:16rpx 0;
+  width: 68rpx;
+  height:68rpx;
+}
+.userinfo p:first-child{
+  color: #6c6c6c;
+}
+.userinfo .create{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  box-sizing:border-box;
+
+}
+.userinfo .create button{
+  color: #6C6C6C;
+  border-radius: 4px;
+  border: 1px solid #C3C3C3;
+  background: #fff;
 }
 </style>
