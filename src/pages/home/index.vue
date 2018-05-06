@@ -34,13 +34,12 @@
 
 <script>
 import mptoast from 'mptoast'
-
 export default {
   components: {
     mptoast
   },
-  onLoad (options) {//监听页面加载this.$root.$mp.query
-    
+  onLoad () {//监听页面加载this.$root.$mp.query
+    //console.log(this.$root)
   },
   onReady(){
     wx.setNavigationBarTitle({
@@ -48,15 +47,10 @@ export default {
     })
   },
   onShow () {//this.$root.$mp.appOptions
-    // wx.redirectTo({
-    //   url:'pages/login/main'
-    // })
+    this.$common.isLogin()
     //console.log('当小程序启动，或从后台进入前台显示')
     // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
     //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
-  },
-  onHide () {
-    //console.log('当小程序从前台进入后台')
   },
   beforeCreate () {
     //console.log('beforeCreate')
@@ -67,25 +61,11 @@ export default {
   methods: {
     showToast () {
       this.$mptoast('我是提示信息')
-    },
-    isLogin(){
-      // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
-      const uid = wx.getStorageSync('uid')
-      if(uid){
-        this.userinfo={
-          uid:uid
-        }
-      }else{
-        wx.navigateTo({
-          url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
-        })
-      }
     }
   }
 }
 </script>
 <style>
-
 /*上传*/
 .uploadImg{
   height: 200rpx;

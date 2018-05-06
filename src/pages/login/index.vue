@@ -1,19 +1,23 @@
 <template>
   <!-- 登陆 -->
-  <div class="container">
-    <div class="flex arrow_right">
-        <!-- 用户名：手机号 -->
-        <span class="key">电话号码</span>
-        <input bindinput="bindKeyInput" type="tel" class="input box" maxlength="100" placeholder="请输入电话号码" />
+  <div class="container" v-bind:class="{ active: transition }">
+    <div class="flex logo" >
+        <!-- 公司logo -->
+        <img src="/static/img/logo/icon-logo.png" />
     </div>
-    <div class="flex arrow_right" @click="showToast">
-        <!-- 用户姓名 -->
-        <span class="key">密码</span>
-        <input bindinput="bindKeyInput" type="password" class="input box" maxlength="100" placeholder="请输入用户姓名" />
+    <div class="content">
+      <div class="flex">
+          <!-- 用户名 -->
+          <input v-on:input="bindKeyInput" v-on:blur="bindBlur" id="username" v-model="username"  type="email" class="input box" maxlength="100" placeholder="电子邮箱" />
+      </div>
+      <div class="flex">
+          <!-- 密码 -->
+          <input v-on:input="bindKeyInput" v-on:blur="bindBlur" id="password" type="password" class="input box" maxlength="100" placeholder="请输入密码" />
+      </div>
     </div>
     <!-- 创建按钮 -->
     <div class="create">
-        <button class="btn" bindtap="bindSubmit">button</button>
+        <button class="btn" @click="bindSubmit">登录</button>
     </div>
     <!-- mptoast弹出框 -->
     <mptoast />
@@ -22,108 +26,140 @@
 
 <script>
 import mptoast from 'mptoast'
-import common from '../../utils/common.js'
+
 export default {
   components: {
     mptoast
   },
-  onReady(){
+  beforeCreate(){//1
+    
+  },
+  created(){
+    
+  },
+  onLoad(){//监听页面加载
     wx.setNavigationBarTitle({
       title: '登陆'
     })
-    console.log(11)
   },
-  onShow () {
-    // wx.navigateTo({
-    //   url: '/pages/login/main?msg='+encodeURIComponent('您还没有登录，请登陆')
-    // })
-    // 验证用户是否登陆了
-    console.log('当小程序启动，或从后台进入前台显示')
-    console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
-    console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
+  onShow(){//监听页面显示
+    this.$data.transition=true
+    console.log(this)
   },
-  onHide () {
-    console.log('当小程序从前台进入后台')
+  onHide () {//监听页面隐藏
+    
   },
-  onLoad () {
-    console.log('监听页面加载')
-  },
-  beforeCreate () {
+  onReady(){//监听页面初次渲染完成
+
   },
   data () {
-    return {}
+    return {
+      transition:false,//动画
+      username:'',//用户名
+      password:''//密码
+    }
   },
   methods: {
-    showToast () {
-      this.$mptoast('我是提示信息')
+    showToast (title) {
+      title&&this.$mptoast(title)
+    },
+    bindKeyInput(e){
+      let {target:{id,value}}=e;
+      if(id==='username'){
+        value=value.trim()
+        this.$data.username=value
+      }else{
+        this.$data.password=value
+      }
+    },
+    bindBlur(e){
+      let {target:{id,value}}=e;
+      if(id==='username'){
+        if(!value){
+          this.showToast('请输入用户名')
+        }
+      }else{
+        if(value.length<6||value.length>20){
+          this.showToast('密码长度太短或太长')
+        }
+      }
+    },
+    bindSubmit(){
+      let {username,password}=this.$data
+      if(!username){
+        this.showToast('请输入用户名')
+        return false
+      }
+      if(!password){
+        this.showToast('密码长度太短或太长')
+        return false
+      }
+      common.networkRequest('get','/api/login',{
+        username,
+        password
+      }).then((v) => {
+          console.log(v);
+      }).catch((v) => {
+          console.log(v);
+      })
     }
   }
 }
 </script>
 <style>
+page{
+  background:transparent;
+  overflow:hidden;
+}
+.container{
+  background:url('../../../static/img/background/loginBg.jpg') no-repeat center;
+  background-size: cover;
+}
+.container>.flex{
+  border:0;
+}
+.content{
+  padding:0 50rpx;
+}
 .flex{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-	flex-wrap:wrap;
-  flex-flow:row;
-  box-sizing: border-box;
-  width:100%;
-  height:90rpx;
-  padding: 0 30rpx;
-  border-bottom: 1px solid #f0f0f0;
-  background-color: #fff;
+  padding:0;
+  background:transparent;
 }
-.flex .box{
-  flex:1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  text-align:center;
+.logo{
+  justify-content:center;
+  height: auto; 
+  padding-bottom:72rpx;
 }
-.flex .input,.flex .value{
-  text-align: right;
-  overflow: hidden;
-  color: #676767;
-  height: 44rpx;
+.logo img{
+  width: 128rpx;
+  height: 128rpx;
 }
-.flex span:first-child{
-  width:150rpx;
-  margin-right: 24rpx;
+.flex input{
+  text-align: left;
 }
-.create{
-  margin-top: 80rpx;
-  padding: 0 26rpx;
-}
-.create .btn{
-  height: 80rpx;
-  line-height: 80rpx;
-  background-color: #2fcc85;
-  color: #fff;
-}
-.create .btn-hover{
-  background-color: #2caf6d;
-  color: #aadfc4;
-}
-/*上传*/
-.uploadImg{
-  height: 200rpx;
-  padding:20rpx;
-  justify-content: flex-start;
-  background: #fff;
-}
-.add {
-  width: 200rpx;
-  height: 100%;
-  position: relative;
-  background: #F6F6F6;
-}
-.add img{
-  width: 72rpx;
-  height: 72rpx;
+/*动画*/
+.logo,.content,.create{
   position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  width: 100%;
+  box-sizing: border-box;
+  top:100%;
+}
+.content{
+  transform: rotateX(90deg);
+}
+.active .logo{
+  top:0;
+  transition:top 500ms ease; 
+}
+.active .content{
+  top:200rpx;
+  transform: rotateX(0);
+  transition-delay: 200ms;
+  transition:all 1s ease-out	; 
+}
+.active .create{
+  top:380rpx;
+  transition-delay: 400s;
+  transition:top 1s ease-in; 
 }
 </style>

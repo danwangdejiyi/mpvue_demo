@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import App from './App'
 import mpvueToastRegistry from 'mptoast/registry'
+import common from './utils/common.js'
 
 mpvueToastRegistry(Vue)
+Vue.prototype.$common = common
 
 Vue.config.productionTip = false
 App.mpType = 'app'
@@ -15,13 +17,16 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: [
-      '^pages/index/main',
-      'pages/login/main'
+      '^pages/home/main',
+      // "pages/home/main",
+      // "pages/index/main",
+      // "pages/login/main",
+      // "pages/my/main"
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '首页',
+      //navigationBarTitleText: '首页',
       navigationBarTextStyle: 'black',
       enablePullDownRefresh: false
     },
@@ -31,22 +36,22 @@ export default {
       backgroundColor: '#ffffff',
       list: [
         {
-          pagePath: 'pages/index/main',
-          text: '快速打卡',
-          iconPath: '/static/img/tabBar/check_unselected.png',
-          selectedIconPath: '/static/img/tabBar/check_selected.png'
+          pagePath: 'pages/home/main',
+          text: '房子',
+          iconPath: '/static/img/tabBar/home_unselected.png',
+          selectedIconPath: '/static/img/tabBar/home_selected.png'
         },
         {
           pagePath: 'pages/index/main',
-          text: '任务管理',
-          iconPath: '/static/img/tabBar/task_unselected.png',
-          selectedIconPath: '/static/img/tabBar/task_selected.png'
+          text: '浩业金服',
+          iconPath: '/static/img/tabBar/index_unselected.png',
+          selectedIconPath: '/static/img/tabBar/index_selected.png'
         },
         {
-          pagePath: 'pages/index/main',
-          text: '新建打卡',
-          iconPath: '/static/img/tabBar/add_unselected.png',
-          selectedIconPath: '/static/img/tabBar/add_selected.png'
+          pagePath: 'pages/my/main',
+          text: '我的',
+          iconPath: '/static/img/tabBar/my_unselected.png',
+          selectedIconPath: '/static/img/tabBar/my_selected.png'
         }
       ]
     },

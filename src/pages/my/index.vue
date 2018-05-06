@@ -16,7 +16,7 @@
         <span class="key">其他</span>
         <input bindinput="bindKeyInput" class="input box" maxlength="100" placeholder="请输入其他" />
     </div>
-    <!-- 上传图片 -->
+    <!-- 上传图片 --> 
     <div class="flex uploadImg mt20">
         <span>上传图片</span>
         <span class="add">
@@ -34,7 +34,6 @@
 
 <script>
 import mptoast from 'mptoast'
-
 export default {
   components: {
     mptoast
