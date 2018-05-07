@@ -28,7 +28,6 @@ async function networkRequest (method = 'get', url = '', params = {}) {
       method: method,
       header: {
         'Content-Type': contentType,
-        'devicetype': '3',
         'Cookie': userinfo.__getUserinfo__
       },
       url: globalData.domain+url,
@@ -66,6 +65,7 @@ function isLogin(){
   }
 }
 function goLogin(msg){
+  //去登陆之前移出所有相关信息
   wx.removeStorageSync('uid')
   delete userinfo.uid
   let url='/pages/login/main'+(msg?'?msg='+encodeURIComponent(msg):'')
@@ -90,5 +90,4 @@ let common = {
   goLogin,
   userinfo
 }
-
 export default common

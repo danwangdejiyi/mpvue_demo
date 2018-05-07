@@ -11,6 +11,7 @@ export default {
     //测试用户：模拟登陆
     /*
       需要保存用户信息：姓名，昵称，uid等
+      保存到this.$common.userinfo和setStorage中去
     */
     this.$common.userinfo.uid='test'
     wx.setStorageSync('uid','test')

@@ -41,6 +41,11 @@
           <img src="/static/img/add.png" />
         </span>
     </div>
+    <div class="flex mt20" :class="{hide:!imgData.length}">
+      <div class="box" v-for="item in imgData" :key="item">
+        <img :src='item' />
+      </div>
+    </div>
     <!-- 创建按钮 -->
     <div class="create">
         <button class="btn " @tap="bindSubmit">提交</button>
@@ -90,7 +95,8 @@ export default {
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
       ],
-      type:1 //一抵（1）+二抵（2），默认一抵
+      type:1 ,//一抵（1）+二抵（2），默认一抵
+      imgData:[]// 上传图片的数量
     }
   },
   methods: {
@@ -104,7 +110,7 @@ export default {
       }
     },
     chooseImage(){
-      upload()
+      upload(this)
     },
     bindSubmit(){
       //将 房抵信息提交上去
