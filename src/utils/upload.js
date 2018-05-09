@@ -47,5 +47,4 @@ export default function upload(that){//that 上传页面的this
       uploadImg(res.tempFiles[0].path,that);
     }
   })
-  console.log(223)
 }
