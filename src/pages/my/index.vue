@@ -9,22 +9,23 @@
           <p>浩业金服</p>
         </div>
       </div>
+      <img src="/static/img/center/center.png" class="bg">
     </div>
-    <div class="flex arrow_right">
+    <div class="flex arrow_right mt20">
         <!-- 历史报单 -->
         <span class="key">历史报单</span>
         <a href="/pages/my/history/main" class="box"></a>
     </div>
-    <div class="flex arrow_right mt20">
-        <!-- 电话号码 -->
+    <!-- <div class="flex arrow_right mt20">
+        关于
         <span class="key">关于</span>
         <a href="" class="box"></a>
-    </div>
-    <div class="flex arrow_right mt20">       
-        <!-- 其他 -->
+    </div> -->
+    <!-- <div class="flex arrow_right mt20">       
+        使用说明
         <span class="key">使用说明</span>
         <a href="" class="box"></a>
-    </div>
+    </div> -->
     <!-- mptoast弹出框 -->
     <mptoast />
     <!--用户信息详情-->
@@ -106,14 +107,14 @@ export default {
 .contnet{
   width: 100%;
   height:300rpx;
-  background:url(/static/img/center/center.png) no-repeat center;
-  background-size: cover;
   padding-top:128rpx;
   box-sizing: border-box;
+  position: relative;
 }
 .contnet .flex{
   background:transparent;
   height:auto;
+  border: 0;
 }
 .contnet .box{
   background:url(/static/img/icon/ic_arrow_right_on.png) no-repeat right center;
@@ -123,6 +124,17 @@ export default {
   width: 126rpx;
   height: 126rpx;
   border-radius: 50%;
+}
+.contnet .bg{
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  z-index: -1;
 }
 .contnet p{
   padding-left:30rpx;

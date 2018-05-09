@@ -21,7 +21,7 @@ async function networkRequest (method = 'get', url = '', params = {}) {
   }
   wx.showNavigationBarLoading() // 设置在导航条上显示Loading加载状态
   wx.showLoading({
-    title: '加载中'
+    title: '加载中，请稍后'
   })
   let result=await new Promise((resolve, reject) => {
     wx.request({
@@ -30,7 +30,7 @@ async function networkRequest (method = 'get', url = '', params = {}) {
         'Content-Type': contentType,
         'Cookie': userinfo.__getUserinfo__
       },
-      url: globalData.domain+url,
+      url: globalData.apiUrl+url,
       data: params,
       success: function (res) {
         wx.hideNavigationBarLoading()
@@ -47,6 +47,9 @@ async function networkRequest (method = 'get', url = '', params = {}) {
           title: res.errMsg
         })
         reject(res)
+      },
+      complete:function(res){
+        console.log(res)
       }
     })
   })

@@ -13,25 +13,25 @@
     <div class="flex">
         <!-- 抵押权 -->
         <span class="box">抵押权</span>
-        <input class="input box" maxlength="100" placeholder="请输入抵押权" />
+        <input class="input box" maxlength="100" placeholder="请输入抵押权" data-title="请输入抵押权" id="mortgage" @blur="verification"/>
         <span class="key">全称</span>
     </div>
     <div class="flex">
         <!-- 一抵余额 -->
         <span class="box">一抵余额（如有）</span>
-        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入一抵余额" />
+        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入一抵余额" data-title="一抵余额未输入或输入错误" id="first" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <div class="flex">
         <!-- 二抵余额 -->
         <span class="box">二抵余额（如有）</span>
-        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入二抵余额" />
+        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入二抵余额" data-title="二抵余额未输入或输入错误" id="second" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <div class="flex">       
         <!-- 本次拟借款金额 -->
         <span class="box">本次拟借款金额</span>
-        <input  class="input box" type="digit" maxlength="100" placeholder="请输入借款金额" />
+        <input  class="input box" type="digit" maxlength="100" placeholder="请输入借款金额" data-title="借款金额未输入或输入错误" id="money" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <!-- 上传图片 -->
@@ -96,6 +96,10 @@ export default {
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
       ],
       type:1 ,//一抵（1）+二抵（2），默认一抵
+      mortgage:null,//抵押权
+      first:null,//一抵
+      second:null,//二抵
+      money:null,//收款金额
       imgData:[]// 上传图片的数量
     }
   },
@@ -111,6 +115,18 @@ export default {
     },
     chooseImage(){
       upload(this)
+    },
+    verification:function(e){
+      let {id,value,dataset:{title}}=e.target;
+      let isEmpty=true;//默认为空
+      if(id==='mortgage'){//抵押权，文字验证
+        isEmpty=!value;
+      }else{//其他，均关于金额
+        isEmpty=value?isNaN(value):true;//value有值时，验证是否为数字；为空是，直接为false
+      }
+      if(isEmpty){//isEmpty为空提示
+        this.showToast(title);
+      }
     },
     bindSubmit(){
       //将 房抵信息提交上去

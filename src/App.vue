@@ -55,7 +55,7 @@ input{
   margin-top: 20rpx;
 }
 .arrow_right{
-  background:url('/static/img/icon/ic_arrow_right_on.png') no-repeat 700rpx center;
+  background:url('http://static.haoyejinfu.com:8088/static/img/icon/ic_arrow_right_on.png') no-repeat 700rpx center;
   background-size: 18rpx 33rpx;
 }
 .flex{
