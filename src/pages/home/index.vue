@@ -12,26 +12,26 @@
     </div>
     <div class="flex">
         <!-- 抵押权 -->
-        <span class="box">抵押权</span>
-        <input class="input box" maxlength="100" placeholder="请输入抵押权" data-title="请输入抵押权" id="mortgage" @blur="verification"/>
+        <span class="box">抵押权<i>*</i></span>
+        <input class="input box" maxlength="100" :value="mortgage" placeholder="请输入抵押权" data-title="请输入抵押权" id="mortgage" @blur="verification"/>
         <span class="key">全称</span>
     </div>
     <div class="flex">
         <!-- 一抵余额 -->
         <span class="box">一抵余额（如有）</span>
-        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入一抵余额" data-title="一抵余额未输入或输入错误" id="first" @blur="verification"/>
+        <input text="tel" class="input box" type="digit" :value="first" maxlength="100" placeholder="请输入一抵余额" data-title="一抵余额未输入或输入错误" id="first" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <div class="flex">
         <!-- 二抵余额 -->
         <span class="box">二抵余额（如有）</span>
-        <input text="tel" class="input box" type="digit" maxlength="100" placeholder="请输入二抵余额" data-title="二抵余额未输入或输入错误" id="second" @blur="verification"/>
+        <input text="tel" class="input box" type="digit" :value="second" maxlength="100" placeholder="请输入二抵余额" data-title="二抵余额未输入或输入错误" id="second" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <div class="flex">       
         <!-- 本次拟借款金额 -->
-        <span class="box">本次拟借款金额</span>
-        <input  class="input box" type="digit" maxlength="100" placeholder="请输入借款金额" data-title="借款金额未输入或输入错误" id="money" @blur="verification"/>
+        <span class="box">本次拟借款金额<i>*</i></span>
+        <input  class="input box" type="digit" maxlength="100" :value="money" placeholder="请输入借款金额" data-title="借款金额未输入或输入错误" id="money" @blur="verification"/>
         <span class="key">万元</span>
     </div>
     <!-- 上传图片 -->
@@ -126,10 +126,33 @@ export default {
       }
       if(isEmpty){//isEmpty为空提示
         this.showToast(title);
+        return false;
       }
+      this[id]=value;
     },
     bindSubmit(){
-      //将 房抵信息提交上去
+      let {type,mortgage,first,second,money,imgData}=this;
+      if(!mortgage){
+        this.showToast('请输入抵押权');
+        return false;
+      }
+      if(!money||isNaN(money)){
+        this.showToast('借款金额未输入或输入错误');
+        return false;
+      }
+      //提交
+      this.$common.networkRequest('get','/mortgage/insert',{
+        situation:type,
+        authority:mortgage,
+        firstBalance:first,
+        secondBalance:second,
+        borrowMoney:money,
+        urls:imgData
+      }).then(function (result) {
+          console.log('成功：' , result);
+      }).catch(function (reason) {
+          console.log('失败：' , reason);
+      });
     }
   }
 }
@@ -187,5 +210,10 @@ export default {
 .type .box:last-child::after{
   content:'';
   right: -18rpx;
+}
+.flex i{
+  display: inline;
+  color:#2fcc85;
+  vertical-align:middle;
 }
 </style>

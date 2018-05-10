@@ -86,13 +86,9 @@ export default {
     toggleUserInfo(){
       let {isToggleUserInfo} =this.$data
       if(!isToggleUserInfo){
-        wx.hideTabBar({
-          animation:true
-        })
+        wx.hideTabBar();
       }else{
-        wx.showTabBar({
-          animation:true
-        })
+        wx.showTabBar();
       }
       this.$data.isToggleUserInfo=!isToggleUserInfo
     },

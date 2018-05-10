@@ -1,7 +1,7 @@
 import common from './common.js'
 function uploadImg(path,that){//that 上传页面的this
   wx.uploadFile({
-    url: 'https://yuncheshi.58.com/api/file/transfer',
+    url: 'https://api.haoyejinfu.com/file/upload',
     filePath: path,
     name: 'file',
     header: { 
@@ -9,8 +9,7 @@ function uploadImg(path,that){//that 上传页面的this
       'Cookie': common.userinfo.__getUserinfo__
     },
     formData: {
-      "Pic-Size":"0*0",
-      "Pic-Path": "/yuncheshi/car/"
+      "Pic-Size":"0*0"
     },
     success: function (res) {//成功that.imgData.push(path)
       console.log(res);
