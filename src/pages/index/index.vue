@@ -129,11 +129,11 @@ export default {
         return false;
       }
       //提交
-      this.$common.networkRequest('get','/advance/insert',{
+      this.$common.networkRequest('post','/advance/insert',{
         perHome,
         nextHome,
         situation,
-        balance,
+        firstBalance:balance,
         borrowMoney,
         urls:imgData
       }).then(function (result) {

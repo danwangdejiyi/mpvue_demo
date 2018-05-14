@@ -141,7 +141,7 @@ export default {
         return false;
       }
       //提交
-      this.$common.networkRequest('get','/mortgage/insert',{
+      this.$common.networkRequest('post','/mortgage/insert',{
         situation:type,
         authority:mortgage,
         firstBalance:first,

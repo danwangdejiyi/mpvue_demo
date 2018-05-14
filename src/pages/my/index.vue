@@ -92,6 +92,15 @@ export default {
       }
       this.$data.isToggleUserInfo=!isToggleUserInfo
     },
+    /* get
+      /login/userinfo
+      
+
+      get
+      login/islogin
+
+      
+    */
     logout(){//退出
       this.$common.goLogin()
     }

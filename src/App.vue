@@ -46,7 +46,7 @@ page{
   height: 100%;
   background-color: #f4f4f4;
   font:32rpx/1.5 "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  color:#676767;
+  color:#333;
 }
 input{
   font:32rpx/1.5 "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
@@ -55,7 +55,7 @@ input{
   margin-top: 20rpx;
 }
 .arrow_right{
-  background:url('http://static.haoyejinfu.com:8088/static/img/icon/ic_arrow_right_on.png') no-repeat 700rpx center;
+  background:url('https://static.haoyejinfu.com/static/img/icon/ic_arrow_right_on.png') no-repeat 700rpx center;
   background-size: 18rpx 33rpx;
 }
 .flex{

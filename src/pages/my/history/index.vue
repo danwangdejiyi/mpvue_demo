@@ -57,6 +57,11 @@ export default {
     showToast (title) {
       title&&this.$mptoast(title)
     }
+    /*
+      post
+      /about/history
+
+    */
   }
 }
 </script>

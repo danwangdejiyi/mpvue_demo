@@ -4,9 +4,9 @@
  * apiUrl: API地址
  * static：静态文件
  */
-let domain = 'https://www.haoyejinfu.com:8088';
-let apiUrl ='https://api.haoyejinfu.com:8088';
-let fileUrl ='https://static.haoyejinfu.com:8088';
+let domain = 'https://www.haoyejinfu.com';
+let apiUrl ='https://api.haoyejinfu.com';
+let fileUrl ='https://static.haoyejinfu.com';
 let globalData = {
   domain,
   apiUrl,

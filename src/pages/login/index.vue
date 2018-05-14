@@ -93,8 +93,9 @@ export default {
         this.showToast('密码长度太短或太长')
         return false
       }
-      this.$common.networkRequest('get','/api/login',{
-        username,
+      //md5加密
+      this.$common.networkRequest('get','/login/fast',{
+        email:username,
         password
       }).then((v) => {//登录成功，保存信息，，并跳转之前那个页面
           console.log(v);
