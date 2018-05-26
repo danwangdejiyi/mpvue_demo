@@ -5,8 +5,8 @@ function uploadImg(path,that){//that 上传页面的this
     filePath: path,
     name: 'file',
     header: { 
-      'Content-Type':'application/json',
-      'Cookie': common.userinfo.__getUserinfo__
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Cookie':"uid="+ wx.getStorageSync('uid')+";"
     },
     formData: {
       "Pic-Size":"0*0"

@@ -12,9 +12,9 @@ import globalData from './globalData'
  */
 async function networkRequest (method = 'get', url = '', params = {}) {
   method = method.toLowerCase()
-  let contentType = 'application/x-www-form-urlencoded'
+  let contentType = 'application/json';
   switch (method) {
-    case 'post':contentType = 'application/json'
+    case 'post':contentType = 'application/x-www-form-urlencoded'
       break
     default:
       method = 'get'
@@ -28,29 +28,23 @@ async function networkRequest (method = 'get', url = '', params = {}) {
       method: method,
       header: {
         'Content-Type': contentType,
-        'Cookie': userinfo.__getUserinfo__
+        'Cookie': "uid="+ wx.getStorageSync('uid')+";"
       },
       url: globalData.apiUrl+url,
       data: params,
       success: function (res) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
-        wx.showToast({
-          title: res.errMsg
-        })
         resolve(res)
       },
       fail: function (res) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
-        wx.showToast({
-          title: res.errMsg
-        })
         reject(res)
       },
-      complete:function(res){
-        console.log(res)
-      }
+      // complete:function(res){
+      //   console.log(res)
+      // }
     })
   })
   return result
@@ -61,35 +55,32 @@ async function networkRequest (method = 'get', url = '', params = {}) {
 function isLogin(){
   // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
   const uid = wx.getStorageSync('uid')
+  console.log('uid',uid)
   if(uid){
     networkRequest('get','/login/islogin',{}).then((result)=>{
       wx.hideNavigationBarLoading()
-      wx.hideLoading()
-      wx.showToast({
-        title: result.errMsg
-      })
-      console.log(result)
+      wx.hideLoading();
+      console.log('islogin',result)
+      if(result.data.ret!=1){
+        goLogin('您还没有登录，请登陆');
+      }
     }).catch((result)=>{
       wx.hideNavigationBarLoading()
       wx.hideLoading()
-      wx.showToast({
-        title: result.errMsg
-      })
-      console.log('失败',result)
+      goLogin('您还没有登录，请登陆');
     });
-    userinfo.uid=uid
   }else{
     goLogin('您还没有登录，请登陆')
   }
 }
 function goLogin(msg){
   //去登陆之前移出所有相关信息
-  wx.removeStorageSync('uid')
-  delete userinfo.uid
-  let url='/pages/login/main'+(msg?'?msg='+encodeURIComponent(msg):'')
+  wx.removeStorageSync('uid');
+  delete userinfo.uid;
+  let url='/pages/login/main'+(msg?'?msg='+encodeURIComponent(msg):'');
   wx.navigateTo({
     url: url
-  })
+  });
 }
 let userinfo={}//小程序页面操作（读取）的用户信息对象
 Object.defineProperty(userinfo,'__getUserinfo__',{

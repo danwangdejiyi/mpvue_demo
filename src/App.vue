@@ -13,12 +13,12 @@ export default {
       需要保存用户信息：姓名，昵称，uid等
       保存到this.$common.userinfo和setStorage中去
     */
-    this.$common.userinfo.uid='test'
-    wx.setStorageSync('uid','test')
+    //this.$common.userinfo.uid='test'
+    //wx.setStorageSync('uid','test')
   },
   onShow(){//当小程序启动，或从后台进入前台显示
     console.log('show')
-    this.$common.isLogin()  //全局监听小程序是否登陆
+    //this.$common.isLogin()  //全局监听小程序是否登陆
   },
   onHide(){//当小程序从前台进入后台
     console.log('hide')

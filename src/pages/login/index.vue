@@ -26,7 +26,7 @@
 
 <script>
 import mptoast from 'mptoast'
-
+import {hexMD5} from '@/utils/md5.js'
 export default {
   components: {
     mptoast
@@ -74,8 +74,8 @@ export default {
     bindBlur(e){
       let {target:{id,value}}=e;
       if(id==='username'){
-        if(!value){
-          this.showToast('请输入用户名')
+        if(!/^(\w+\.?)*\w+@(?:\w+\.)\w+$/.test(value)){
+          this.showToast('请输入邮箱')
         }
       }else{
         if(value.length<6||value.length>20){
@@ -85,7 +85,7 @@ export default {
     },
     bindSubmit(){
       let {username,password}=this.$data
-      if(!username){
+      if(!/^(\w+\.?)*\w+@(?:\w+\.)\w+$/.test(username)){
         this.showToast('请输入用户名')
         return false
       }
@@ -96,11 +96,20 @@ export default {
       //md5加密
       this.$common.networkRequest('get','/login/fast',{
         email:username,
-        password
+        password:hexMD5(hexMD5(password))
       }).then((v) => {//登录成功，保存信息，，并跳转之前那个页面
-          console.log(v);
+          let {data} =v;
+          if(data.ret==1&&data.data){
+            this.$common.userinfo.uid=data.data;
+            wx.setStorageSync('uid',data.data);
+            wx.switchTab({
+              url: '/pages/home/main'
+            })
+          }else{
+            this.showToast(data.msg);
+          }
       }).catch((v) => {
-          console.log(v);
+          this.showToast(v.msg);
       })
     }
   }
@@ -111,10 +120,11 @@ page{
   background:transparent;
   overflow:hidden;
 }
+/*
 .container{
-  background:url('../../../static/img/background/loginBg.jpg') no-repeat center;
+  background:url('https://www.haoyejinfu.com/static/static/img/background/loginBg.jpg') no-repeat center;
   background-size: cover;
-}
+}*/
 .container>.flex{
   border:0;
 }
