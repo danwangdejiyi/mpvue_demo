@@ -1,7 +1,7 @@
 import common from './common.js'
 function uploadImg(path,that){//that 上传页面的this
   wx.uploadFile({
-    url: 'https://api.haoyejinfu.com/file/upload',
+    url: 'https://www.haoyejinfu.com/api/file/upload',
     filePath: path,
     name: 'file',
     header: { 
@@ -13,10 +13,9 @@ function uploadImg(path,that){//that 上传页面的this
     },
     success: function (res) {//成功that.imgData.push(path)
       console.log(res);
-      let data = JSON.parse(res.data);
-      if (data.code !=0) {
+      if (res.code !=0) {
         that.showToast({//了解mptoast
-          title: data.msg,
+          title: res.msg,
         })
         return;
       }
@@ -24,11 +23,10 @@ function uploadImg(path,that){//that 上传页面的this
       wx.hideLoading();
     },
     fail: function (res) { 
-      let data = JSON.parse(res.data);
       wx.hideLoading();
       console.log(res);
       that.showToast({
-        title: data.msg
+        title: res.msg
       })
     }
   })

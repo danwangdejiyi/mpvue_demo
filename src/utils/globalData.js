@@ -5,8 +5,8 @@
  * static：静态文件
  */
 let domain = 'https://www.haoyejinfu.com';
-let apiUrl ='https://api.haoyejinfu.com';
-let fileUrl ='https://static.haoyejinfu.com';
+let apiUrl ='https://www.haoyejinfu.com/api';
+let fileUrl ='https://www.haoyejinfu.com/static';
 let globalData = {
   domain,
   apiUrl,

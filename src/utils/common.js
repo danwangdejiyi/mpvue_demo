@@ -62,6 +62,21 @@ function isLogin(){
   // 调用API从本地缓存中获取数据,获取用户信息,用来判断用户是否登陆
   const uid = wx.getStorageSync('uid')
   if(uid){
+    networkRequest('get','/login/islogin',{}).then((result)=>{
+      wx.hideNavigationBarLoading()
+      wx.hideLoading()
+      wx.showToast({
+        title: result.errMsg
+      })
+      console.log(result)
+    }).catch((result)=>{
+      wx.hideNavigationBarLoading()
+      wx.hideLoading()
+      wx.showToast({
+        title: result.errMsg
+      })
+      console.log('失败',result)
+    });
     userinfo.uid=uid
   }else{
     goLogin('您还没有登录，请登陆')

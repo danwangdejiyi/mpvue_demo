@@ -92,6 +92,13 @@ export default {
       }
       this.$data.isToggleUserInfo=!isToggleUserInfo
     },
+    bindSubmit(){
+      this.$common.networkRequest('get','/login/userinfo',{}).then((v) => {
+          console.log(v);
+      }).catch((v) => {
+          console.log(v);
+      })
+    },
     /* get
       /login/userinfo
       
@@ -122,7 +129,7 @@ export default {
   border: 0;
 }
 .contnet .box{
-  background:url(/static/img/icon/ic_arrow_right_on.png) no-repeat right center;
+  background:url(https://www.haoyejinfu.com/static/static/img/icon/ic_arrow_right_on.png) no-repeat right center;
   background-size:24rpx 44rpx;
 }
 .contnet img{

@@ -48,7 +48,7 @@
     </div>
     <!-- 创建按钮 -->
     <div class="create">
-        <button class="btn " @tap="bindSubmit">提交</button>
+        <button class="btn" @tap="bindSubmit">提交</button>
     </div>
     <!-- mptoast弹出框 -->
     <mptoast />

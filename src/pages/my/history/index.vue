@@ -37,7 +37,8 @@ export default {
     })
   },
   onShow(){//监听页面显示
-    this.$common.isLogin()
+    this.$common.isLogin();
+    this.historyList();
     //console.log('当小程序启动，或从后台进入前台显示')
     // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
     //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
@@ -56,12 +57,14 @@ export default {
   methods: {
     showToast (title) {
       title&&this.$mptoast(title)
+    },
+    historyList(){
+      this.$common.networkRequest('post','/about/history',{}).then((v) => {//登录成功，保存信息，，并跳转之前那个页面
+          console.log(v);
+      }).catch((v) => {
+          console.log(v);
+      })
     }
-    /*
-      post
-      /about/history
-
-    */
   }
 }
 </script>
