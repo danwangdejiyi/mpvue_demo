@@ -97,10 +97,10 @@ export default {
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
       ],
       type:1 ,//一抵（1）+二抵（2），默认一抵
-      mortgage:null,//抵押权
-      first:null,//一抵
-      second:null,//二抵
-      money:null,//收款金额
+      mortgage:"",//抵押权
+      first:"",//一抵
+      second:"",//二抵
+      money:"",//收款金额
       imgData:[]// 上传图片的数量
     }
   },
@@ -131,6 +131,13 @@ export default {
       }
       this[id]=value;
     },
+    successValue:function(){
+      this.mortgage='';//抵押权
+      this.first="";//一抵
+      this.second="";//二抵
+      this.money="";//收款金额
+      this.imgData=[];
+    },
     bindSubmit(){
       let {type,mortgage,first,second,money,imgData}=this;
       if(!mortgage){
@@ -149,10 +156,13 @@ export default {
         secondBalance:second,
         borrowMoney:money,
         urls:imgData
-      }).then(function (result) {
-          console.log('成功：' , result);
-      }).catch(function (reason) {
-          console.log('失败：' , reason);
+      }).then((res) =>{
+        this.showToast(res.data.msg);
+        if(res.data.ret==1){
+          this.successValue();
+        }
+      }).catch((res)=> {
+        this.showToast(res.data.msg);
       });
     }
   }

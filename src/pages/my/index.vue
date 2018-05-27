@@ -63,7 +63,8 @@ export default {
     })
   },
   onShow(){//监听页面显示
-    this.$common.isLogin()
+    this.$common.isLogin();
+    this.getUserInfo();
     //console.log('当小程序启动，或从后台进入前台显示')
     // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
     //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
@@ -92,23 +93,19 @@ export default {
       }
       this.$data.isToggleUserInfo=!isToggleUserInfo
     },
-    bindSubmit(){
+    getUserInfo(){
       this.$common.networkRequest('get','/login/userinfo',{}).then((v) => {
-          console.log(v);
+        let {data}=v;
+        console.log(data,typeof data)
       }).catch((v) => {
           console.log(v);
+          this.showToast({
+            title: res.msg
+          })
       })
     },
-    /* get
-      /login/userinfo
-      
-
-      get
-      login/islogin
-
-      
-    */
     logout(){//退出
+      this.toggleUserInfo();
       this.$common.goLogin()
     }
   }

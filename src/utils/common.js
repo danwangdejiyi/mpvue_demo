@@ -60,7 +60,6 @@ function isLogin(){
     networkRequest('get','/login/islogin',{}).then((result)=>{
       wx.hideNavigationBarLoading()
       wx.hideLoading();
-      console.log('islogin',result)
       if(result.data.ret!=1){
         goLogin('您还没有登录，请登陆');
       }
@@ -78,6 +77,7 @@ function goLogin(msg){
   wx.removeStorageSync('uid');
   delete userinfo.uid;
   let url='/pages/login/main'+(msg?'?msg='+encodeURIComponent(msg):'');
+  wx.showTabBar();
   wx.navigateTo({
     url: url
   });

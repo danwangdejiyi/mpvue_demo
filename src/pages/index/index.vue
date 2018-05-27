@@ -88,11 +88,11 @@ export default {
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
       ],
-      perHome:null ,//上家
-      nextHome:null,//下家
-      situation:null,//垫资情况
-      balance:null,//一，二抵
-      borrowMoney:null,//收款金额
+      perHome:"" ,//上家
+      nextHome:"",//下家
+      situation:"",//垫资情况
+      balance:"",//一，二抵
+      borrowMoney:"",//收款金额
       imgData:[]// 上传图片的数量
     }
   },
@@ -117,6 +117,14 @@ export default {
       }
       this[id]=value;
     },
+    successValue:function(){
+      this.perHome="" ;//上家
+      this.nextHome="";//下家
+      this.situation="";//垫资情况
+      this.balance="";//一，二抵
+      this.borrowMoney="";//收款金额
+      this.imgData=[]
+    },
     bindSubmit(){
       //将 房抵信息提交上去
       let {perHome,nextHome,situation,balance,borrowMoney,imgData}=this;
@@ -136,10 +144,13 @@ export default {
         firstBalance:balance,
         borrowMoney,
         urls:imgData
-      }).then(function (result) {
-          console.log('成功：' , result);
-      }).catch(function (reason) {
-          console.log('失败：' , reason);
+      }).then( (res)=> {
+        this.showToast(res.data.msg);
+        if(res.data.ret==1){
+          this.successValue();
+        }
+      }).catch((res)=> {
+        this.showToast(res.data.msg);
       });
     }
   }
