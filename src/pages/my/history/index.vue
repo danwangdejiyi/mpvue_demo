@@ -1,17 +1,11 @@
 <template>
   <!-- 个人中心 -->
   <div class="container">
-    <div class="flex">
+    <div class="flex" v-for="item in data" :key="item">
         <!-- 历史报单 -->
-        <span class="box">2018.05.08</span>
-        <span class="box">审核中</span>
-        <span class="box">房抵</span>
-    </div>
-    <div class="flex">
-        <!-- 历史报单 -->
-        <span class="box">2018.05.08</span>
-        <span class="box">审核中</span>
-        <span class="box">房抵</span>
+        <span class="box">{{item.createTime}}</span>
+        <span class="box">{{item.auditStatus==0?'待审核':item.auditStatus==1?'审核成功':"审核失败"}}</span>
+        <span class="box">{{item.type==1?'房抵':"垫资"}}</span>
     </div>
     <p :class="{hide:!!data.length}">已经没有啦！~</p>
     <!-- mptoast弹出框 -->
@@ -60,7 +54,10 @@ export default {
     },
     historyList(){
       this.$common.networkRequest('post','/about/history',{}).then((v) => {//登录成功，保存信息，，并跳转之前那个页面
-          console.log(v);
+        let {data}=v;
+        if(data.ret==1){
+          this.data=data.data;
+        }
       }).catch((v) => {
           console.log(v);
       })

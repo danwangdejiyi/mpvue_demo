@@ -41,8 +41,8 @@
           <img src="/static/img/add.png" />
         </span>
     </div>
-    <div class="flex mt20" :class="{hide:!imgData.length}">
-      <div class="box" v-for="item in imgData" :key="item">
+    <div class="flex mt20 imgs" :class="{hide:!imgData.length}">
+      <div class="boxs" v-for="item in imgData" :key="item">
         <img :src='item' />
       </div>
     </div>
@@ -149,14 +149,17 @@ export default {
         return false;
       }
       //提交
-      this.$common.networkRequest('post','/mortgage/insert',{
+      let insertData={
         situation:type,
         authority:mortgage,
         firstBalance:first,
         secondBalance:second,
         borrowMoney:money,
-        urls:imgData
-      }).then((res) =>{
+      }
+      if(imgData.length!=0){
+        insertData.urls=Array.from(imgData);
+      }
+      this.$common.networkRequest('post','/mortgage/insert',insertData).then((res) =>{
         this.showToast(res.data.msg);
         if(res.data.ret==1){
           this.successValue();
@@ -169,7 +172,30 @@ export default {
 }
 </script>
 <style>
-
+.imgs{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    height:auto;
+}
+.imgs:after {
+    content: '';
+    visibility: hidden;
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    display: block;
+    height: 0;
+    min-height: 0;
+    width: 31%;
+}
+.imgs .boxs{
+  width: 31%;
+}
+.imgs img{
+  width:100%;
+  height:200rpx;
+}
 .type{
   height: 60rpx;
   line-height: 60rpx;

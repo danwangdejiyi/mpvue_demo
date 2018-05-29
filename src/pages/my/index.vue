@@ -5,7 +5,7 @@
       <div class="flex" @click="toggleUserInfo" :class="{hide:isToggleUserInfo}">
         <img src="/static/img/center/touxiang.png" alt="浩业金服">
         <div class="box">
-          <p>用户名</p>
+          <p>{{userInfoName}}</p>
           <p>浩业金服</p>
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="userDetail">
         <div class="flex">
           <p>姓名</p>
-          <p class="box">浩业金服</p>
+          <p class="box">{{userInfoName}}</p>
         </div>
       </div>
       <!-- 创建按钮 -->
@@ -65,9 +65,6 @@ export default {
   onShow(){//监听页面显示
     this.$common.isLogin();
     this.getUserInfo();
-    //console.log('当小程序启动，或从后台进入前台显示')
-    // console.log('this.$root.$mp.query获取小程序在 page onLoad 时候传递的 options')
-    //console.log('this.$root.$mp.appOptions小程序在 app onLaunch/onShow 时候传递的 options')
   },
   onHide () {//监听页面隐藏
     
@@ -77,6 +74,7 @@ export default {
   },
   data () {
     return {
+      userInfoName:'',
       isToggleUserInfo:false //是否显示用户信息详情
     }
   },
@@ -95,10 +93,11 @@ export default {
     },
     getUserInfo(){
       this.$common.networkRequest('get','/login/userinfo',{}).then((v) => {
-        let {data}=v;
-        console.log(data,typeof data)
-      }).catch((v) => {
-          console.log(v);
+        let data=v.data
+        if(data.data.userName){
+          this.userInfoName=data.data.userName;
+        }
+      }).catch((res) => {
           this.showToast({
             title: res.msg
           })
